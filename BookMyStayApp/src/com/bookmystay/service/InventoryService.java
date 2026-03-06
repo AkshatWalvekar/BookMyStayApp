@@ -44,6 +44,11 @@ public class InventoryService {
             System.out.println("Room type not found.");
         }
     }
+    
+    //allow other services to access inventory
+    public RoomInventory getInventory() {
+    	return inventory;
+    }
 
     // Display inventory
     public void showInventory() {

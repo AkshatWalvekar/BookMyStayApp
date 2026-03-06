@@ -2,6 +2,7 @@ package com.bookmystay.main;
 
 import java.util.Scanner;
 import com.bookmystay.service.InventoryService;
+import com.bookmystay.service.SearchService;
 
 public class BookMyStayApp {
 
@@ -9,16 +10,21 @@ public class BookMyStayApp {
 
         Scanner sc = new Scanner(System.in);
 
-        InventoryService service = new InventoryService();
+        InventoryService inventoryService = new InventoryService();
+
+        SearchService searchService =
+                new SearchService(inventoryService.getInventory());
 
         while(true) {
 
-            System.out.println("\n--- BookMyStay Inventory System ---");
+            System.out.println("\n--- BookMyStay System ---");
             System.out.println("1 Add Room Type");
             System.out.println("2 Update Room Count");
             System.out.println("3 Update Room Price");
             System.out.println("4 Show Inventory");
-            System.out.println("5 Exit");
+            System.out.println("5 Search Available Rooms");
+            System.out.println("6 Check Specific Room");
+            System.out.println("7 Exit");
 
             System.out.print("Enter choice: ");
             int choice = sc.nextInt();
@@ -26,48 +32,74 @@ public class BookMyStayApp {
 
             switch(choice) {
 
+                //add room type
                 case 1:
-                    System.out.print("Enter room type: ");
+
+                    System.out.print("Room type: ");
                     String type = sc.nextLine();
 
-                    System.out.print("Enter count: ");
+                    System.out.print("Count: ");
                     int count = sc.nextInt();
 
-                    System.out.print("Enter price: ");
+                    System.out.print("Price: ");
                     double price = sc.nextDouble();
 
-                    service.addRoomType(type, count, price);
+                    inventoryService.addRoomType(type, count, price);
                     break;
 
+                //Update room count
                 case 2:
-                    System.out.print("Enter room type: ");
+
+                    System.out.print("Room type: ");
                     type = sc.nextLine();
 
-                    System.out.print("Enter new count: ");
+                    System.out.print("New count: ");
                     count = sc.nextInt();
 
-                    service.updateRoomCount(type, count);
+                    inventoryService.updateRoomCount(type, count);
                     break;
 
+                //Update room price
                 case 3:
+
+                    System.out.print("Room type: ");
+                    type = sc.nextLine();
+
+                    System.out.print("New price: ");
+                    price = sc.nextDouble();
+
+                    inventoryService.updateRoomPrice(type, price);
+                    break;
+
+                //show inventory
+                case 4:
+
+                    inventoryService.showInventory();
+                    break;
+
+                //search available rooms
+                case 5:
+
+                    searchService.showAvailableRooms();
+                    break;
+
+                //check specific room
+                case 6:
+
                     System.out.print("Enter room type: ");
                     type = sc.nextLine();
 
-                    System.out.print("Enter new price: ");
-                    price = sc.nextDouble();
-
-                    service.updateRoomPrice(type, price);
+                    searchService.checkRoom(type);
                     break;
+                
+               //exiting
+                case 7:
 
-                case 4:
-                    service.showInventory();
-                    break;
-
-                case 5:
                     System.out.println("Exiting...");
                     System.exit(0);
 
                 default:
+
                     System.out.println("Invalid choice");
             }
         }
