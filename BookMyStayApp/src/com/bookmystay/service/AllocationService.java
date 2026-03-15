@@ -42,7 +42,7 @@ public class AllocationService {
         }
 
         // generate room id
-        String roomId = roomType + "-" + (available);
+        String roomId = roomType + "-" + System.currentTimeMillis();
 
         if(bookedRoomIds.contains(roomId)) {
 

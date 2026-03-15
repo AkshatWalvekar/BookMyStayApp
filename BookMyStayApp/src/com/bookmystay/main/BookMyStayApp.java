@@ -7,6 +7,8 @@ import com.bookmystay.service.SearchService;
 import com.bookmystay.service.BookingQueueService;
 import com.bookmystay.service.AllocationService;
 import com.bookmystay.model.Reservation;
+import com.bookmystay.service.AddOnServiceManager;
+import com.bookmystay.model.Service;
 
 public class BookMyStayApp {
 
@@ -23,6 +25,8 @@ public class BookMyStayApp {
         
         AllocationService allocationService =
                 new AllocationService(inventoryService.getInventory());
+        
+        AddOnServiceManager serviceManager = new AddOnServiceManager();
 
         while(true) {
 
@@ -38,7 +42,9 @@ public class BookMyStayApp {
             System.out.println("9 Show Booking Queue");
             System.out.println("10 Confirm Reservation & Allocate Room");
             System.out.println("11 Show Allocated Rooms");
-            System.out.println("12 Exit");
+            System.out.println("12 Add Add-On Service");
+            System.out.println("13 Show Reservation Service");
+            System.out.println("14 Exit");
 
             System.out.print("Enter choice: ");
             int choice = sc.nextInt();
@@ -144,8 +150,49 @@ public class BookMyStayApp {
                     allocationService.showAllocations();
                     break;
 
-                //Exit...
+                //AddOn services
                 case 12:
+
+                    System.out.print("Enter Reservation ID: ");
+                    String resId = sc.nextLine();
+
+                    System.out.println("1 Breakfast (500)");
+                    System.out.println("2 Spa (1500)");
+                    System.out.println("3 Airport Pickup (800)");
+
+                    int serviceChoice = sc.nextInt();
+                    sc.nextLine();
+
+                    if(serviceChoice == 1) {
+                        serviceManager.addService(resId,
+                                new Service("Breakfast",500));
+                    }
+
+                    else if(serviceChoice == 2) {
+                        serviceManager.addService(resId,
+                                new Service("Spa",1500));
+                    }
+
+                    else if(serviceChoice == 3) {
+                        serviceManager.addService(resId,
+                                new Service("Airport Pickup",800));
+                    }
+
+                    break;
+
+                //Show Reservation Service
+                case 13:
+
+                    System.out.print("Enter Reservation ID: ");
+                    resId = sc.nextLine();
+
+                    serviceManager.showServices(resId);
+
+                    break;
+
+                    
+                //Exit...
+                case 14:
                     System.out.println("Exiting...");
                     System.exit(0);
 
