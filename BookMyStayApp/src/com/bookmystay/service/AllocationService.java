@@ -13,10 +13,12 @@ public class AllocationService {
     private Set<String> bookedRoomIds;
 
     private RoomInventory inventory;
+    private BookingHistoryService historyService;
 
-    public AllocationService(RoomInventory inventory) {
+    public AllocationService(RoomInventory inventory, BookingHistoryService historyService) {
 
         this.inventory = inventory;
+        this.historyService = historyService;
 
         allocatedRooms = new HashMap<>();
         bookedRoomIds = new HashSet<>();
@@ -61,10 +63,17 @@ public class AllocationService {
         System.out.println("Reservation Confirmed!");
         System.out.println("Guest: " + r.getGuestName());
         System.out.println("Room Allocated: " + roomId);
+        
+        historyService.addReservation(r);
     }
 
     // show allocated rooms
     public void showAllocations() {
+    	
+    	if(allocatedRooms.isEmpty()) {
+    		System.out.println("No rooms Allocations.");
+    		return;
+    	}
 
         System.out.println("\nAllocated Rooms:");
 

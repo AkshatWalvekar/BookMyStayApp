@@ -9,6 +9,7 @@ import com.bookmystay.service.AllocationService;
 import com.bookmystay.model.Reservation;
 import com.bookmystay.service.AddOnServiceManager;
 import com.bookmystay.model.Service;
+import com.bookmystay.service.BookingHistoryService;
 
 public class BookMyStayApp {
 
@@ -23,8 +24,12 @@ public class BookMyStayApp {
 
         BookingQueueService bookingService = new BookingQueueService();
         
+        BookingHistoryService historyService = new BookingHistoryService();
+        
         AllocationService allocationService =
-                new AllocationService(inventoryService.getInventory());
+                new AllocationService(inventoryService.getInventory(),historyService);
+        
+        
         
         AddOnServiceManager serviceManager = new AddOnServiceManager();
 
@@ -44,7 +49,10 @@ public class BookMyStayApp {
             System.out.println("11 Show Allocated Rooms");
             System.out.println("12 Add Add-On Service");
             System.out.println("13 Show Reservation Service");
-            System.out.println("14 Exit");
+            System.out.println("14 Show Booking History");
+            System.out.println("15 Cancel Reservation");
+            System.out.println("16 Generate Booking Report");
+            System.out.println("17 Exit");
 
             System.out.print("Enter choice: ");
             int choice = sc.nextInt();
@@ -189,10 +197,30 @@ public class BookMyStayApp {
                     serviceManager.showServices(resId);
 
                     break;
+                 
+                //Show Booking History
+                case 14:
 
+                    historyService.showHistory();
+                    break;
+
+                //Cancel Reservation
+                case 15:
+
+                    System.out.print("Enter guest name: ");
+                    String guest = sc.nextLine();
+
+                    historyService.cancelReservation(guest);
+                    break;
+
+                //Generate booking report
+                case 16:
+
+                    historyService.generateReport();
+                    break;
                     
                 //Exit...
-                case 14:
+                case 17:
                     System.out.println("Exiting...");
                     System.exit(0);
 
