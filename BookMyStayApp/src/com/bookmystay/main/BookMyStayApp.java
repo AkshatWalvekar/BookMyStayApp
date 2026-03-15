@@ -5,6 +5,8 @@ import java.util.Scanner;
 import com.bookmystay.service.InventoryService;
 import com.bookmystay.service.SearchService;
 import com.bookmystay.service.BookingQueueService;
+import com.bookmystay.service.AllocationService;
+import com.bookmystay.model.Reservation;
 
 public class BookMyStayApp {
 
@@ -18,6 +20,9 @@ public class BookMyStayApp {
                 new SearchService(inventoryService.getInventory());
 
         BookingQueueService bookingService = new BookingQueueService();
+        
+        AllocationService allocationService =
+                new AllocationService(inventoryService.getInventory());
 
         while(true) {
 
@@ -31,7 +36,9 @@ public class BookMyStayApp {
             System.out.println("7 Add Booking Request");
             System.out.println("8 Process Booking");
             System.out.println("9 Show Booking Queue");
-            System.out.println("10 Exit");
+            System.out.println("10 Confirm Reservation & Allocate Room");
+            System.out.println("11 Show Allocated Rooms");
+            System.out.println("12 Exit");
 
             System.out.print("Enter choice: ");
             int choice = sc.nextInt();
@@ -114,9 +121,31 @@ public class BookMyStayApp {
                 case 9:
                     bookingService.showQueue();
                     break;
+                
+                //To confirm reservation and allocate rooms
+                case 10:
+
+                    Reservation r = bookingService.getNextReservation();
+
+                    if(r == null) {
+
+                        System.out.println("No booking requests.");
+                    }
+                    else {
+
+                        allocationService.allocateRoom(r);
+                    }
+
+                    break;
+                 
+                //to show allocated rooms
+                case 11:
+
+                    allocationService.showAllocations();
+                    break;
 
                 //Exit...
-                case 10:
+                case 12:
                     System.out.println("Exiting...");
                     System.exit(0);
 

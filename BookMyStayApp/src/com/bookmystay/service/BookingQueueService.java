@@ -58,4 +58,14 @@ public class BookingQueueService {
             );
         }
     }
+    
+    //to return next reservation without printing
+    public Reservation getNextReservation() {
+
+        if(bookingQueue.isEmpty()) {
+            return null;
+        }
+
+        return bookingQueue.poll();
+    }
 }
