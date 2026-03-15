@@ -1,8 +1,10 @@
 package com.bookmystay.main;
 
 import java.util.Scanner;
+
 import com.bookmystay.service.InventoryService;
 import com.bookmystay.service.SearchService;
+import com.bookmystay.service.BookingQueueService;
 
 public class BookMyStayApp {
 
@@ -15,6 +17,8 @@ public class BookMyStayApp {
         SearchService searchService =
                 new SearchService(inventoryService.getInventory());
 
+        BookingQueueService bookingService = new BookingQueueService();
+
         while(true) {
 
             System.out.println("\n--- BookMyStay System ---");
@@ -24,17 +28,19 @@ public class BookMyStayApp {
             System.out.println("4 Show Inventory");
             System.out.println("5 Search Available Rooms");
             System.out.println("6 Check Specific Room");
-            System.out.println("7 Exit");
+            System.out.println("7 Add Booking Request");
+            System.out.println("8 Process Booking");
+            System.out.println("9 Show Booking Queue");
+            System.out.println("10 Exit");
 
             System.out.print("Enter choice: ");
             int choice = sc.nextInt();
             sc.nextLine();
 
             switch(choice) {
-
-                //add room type
+            	
+            	//Add room type
                 case 1:
-
                     System.out.print("Room type: ");
                     String type = sc.nextLine();
 
@@ -49,7 +55,6 @@ public class BookMyStayApp {
 
                 //Update room count
                 case 2:
-
                     System.out.print("Room type: ");
                     type = sc.nextLine();
 
@@ -61,7 +66,6 @@ public class BookMyStayApp {
 
                 //Update room price
                 case 3:
-
                     System.out.print("Room type: ");
                     type = sc.nextLine();
 
@@ -73,33 +77,50 @@ public class BookMyStayApp {
 
                 //show inventory
                 case 4:
-
                     inventoryService.showInventory();
                     break;
 
                 //search available rooms
                 case 5:
-
                     searchService.showAvailableRooms();
                     break;
 
-                //check specific room
+                //Check specific room
                 case 6:
-
                     System.out.print("Enter room type: ");
                     type = sc.nextLine();
 
                     searchService.checkRoom(type);
                     break;
-                
-               //exiting
+
+                //Add Booking request
                 case 7:
 
+                    System.out.print("Guest Name: ");
+                    String name = sc.nextLine();
+
+                    System.out.print("Room Type: ");
+                    type = sc.nextLine();
+
+                    bookingService.addBooking(name, type);
+                    break;
+
+                //Process Booking
+                case 8:
+                    bookingService.processBooking();
+                    break;
+
+                //Show booking queue
+                case 9:
+                    bookingService.showQueue();
+                    break;
+
+                //Exit...
+                case 10:
                     System.out.println("Exiting...");
                     System.exit(0);
 
                 default:
-
                     System.out.println("Invalid choice");
             }
         }
